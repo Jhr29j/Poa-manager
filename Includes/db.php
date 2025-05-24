@@ -1,9 +1,9 @@
 <?php
-$host = "mysql.railway.internal"; // MYSQHOST
-$port = 3306;                      // MYSQLPORT
+$host = "tramway.proxy.rlwy.net"; // MYSQHOST
+$port = "17185";                      // MYSQLPORT
 $db = "railway";                   // MYSQLDATABASE
 $user = "root";                    // MYSQLUSER
-$pass = "TDyZFJNonVTPAFPJuYncFJUHqbwqfVgR"; // MYSQLPASSWORD
+$pass = "rFLLNjMncPcBDuxjvqtMwQGwmFKauECp"; // MYSQLPASSWORD
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8", $user, $pass);
