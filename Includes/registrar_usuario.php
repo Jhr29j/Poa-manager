@@ -1,14 +1,17 @@
 <?php
-// Iniciar sesión al principio
-session_start();
+/**
+ * registrar_usuario.php
+ * Procesa el formulario de registro de nuevos usuarios
+ */
 
-require_once __DIR__.'/config.php';
-require_once __DIR__.'/db.php';
+// Cargar configuración y conexión a DB (sin iniciar sesión aquí)
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/db.php';
 
 // Verificar si la solicitud es POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $_SESSION['error'] = "Método no permitido";
-    header("Location: ".BASE_URL."views/registro.php");
+    header("Location: " . BASE_URL . "views/registro.php");
     exit;
 }
 
@@ -54,7 +57,7 @@ if ($fecha_nacimiento && strtotime($fecha_nacimiento) > time()) {
 if (!empty($errores)) {
     $_SESSION['error'] = implode("<br>", $errores);
     $_SESSION['form_data'] = $_POST;
-    header("Location: ".BASE_URL."views/registro.php");
+    header("Location: " . BASE_URL . "views/registro.php");
     exit;
 }
 
@@ -66,13 +69,13 @@ try {
     if ($stmt->rowCount() > 0) {
         $_SESSION['error'] = "Este email ya está registrado";
         $_SESSION['form_data'] = $_POST;
-        header("Location: ".BASE_URL."views/registro.php");
+        header("Location: " . BASE_URL . "views/registro.php");
         exit;
     }
 } catch (PDOException $e) {
-    error_log("Error al verificar email: ".$e->getMessage());
+    error_log("Error al verificar email: " . $e->getMessage());
     $_SESSION['error'] = "Error en el sistema. Por favor intente más tarde.";
-    header("Location: ".BASE_URL."views/registro.php");
+    header("Location: " . BASE_URL . "views/registro.php");
     exit;
 }
 
@@ -117,14 +120,13 @@ try {
     
     // Redirigir al dashboard con mensaje de éxito
     $_SESSION['success'] = "Registro exitoso. ¡Bienvenido/a!";
-    header("Location: ".BASE_URL."inicio.php");
+    header("Location: " . BASE_URL . "inicio.php");
     exit;
     
 } catch (PDOException $e) {
-    error_log("Error al registrar usuario: ".$e->getMessage());
+    error_log("Error al registrar usuario: " . $e->getMessage());
     $_SESSION['error'] = "Error al registrar el usuario. Por favor intente nuevamente.";
     $_SESSION['form_data'] = $_POST;
-    header("Location: ".BASE_URL."views/registro.php");
+    header("Location: " . BASE_URL . "views/registro.php");
     exit;
 }
-?>
