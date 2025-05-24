@@ -1,12 +1,20 @@
 <?php
-// config.php
+// Configurar el timezone
+date_default_timezone_set('America/Bogota');
+
+// Definir constantes de rutas
 define('BASE_URL', 'https://'.$_SERVER['HTTP_HOST'].'/');
-define('VIEWS_PATH', __DIR__.'/../views/');
-define('ASSETS_PATH', BASE_URL.'assets/');
+define('ROOT_PATH', realpath(dirname(__FILE__).'/../');
 
 // Configuración de sesión segura
-ini_set('session.cookie_secure', 1);
-ini_set('session.cookie_httponly', 1);
-ini_set('session.use_only_cookies', 1);
+session_set_cookie_params([
+    'lifetime' => 86400,
+    'path' => '/',
+    'domain' => $_SERVER['HTTP_HOST'],
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 session_start();
 ?>

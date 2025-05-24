@@ -130,15 +130,22 @@ unset($_SESSION['error'], $_SESSION['success']);
         </div>
 
         <script>
-        function validarFormulario() {
-            const pass = document.querySelector('input[name="password"]').value;
-            const confirm = document.querySelector('input[name="confirm_password"]').value;
-            if (pass !== confirm) {
-                alert('Las contraseñas no coinciden.');
-                return false;
-            }
-            return true;
-}
+function validarFormulario() {
+        const password = document.querySelector('input[name="password"]').value;
+        const confirm = document.querySelector('input[name="confirm_password"]').value;
+        
+        if (password.length < 8) {
+            alert('La contraseña debe tener al menos 8 caracteres.');
+            return false;
+        }
+        
+        if (password !== confirm) {
+            alert('Las contraseñas no coinciden.');
+            return false;
+        }
+        
+        return true;
+    }
 </script>
 
     </body>

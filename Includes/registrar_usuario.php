@@ -1,9 +1,14 @@
 <?php
-require_once __DIR__.'config.php';
-require_once __DIR__.'db.php';
+// Iniciar sesión al principio
+session_start();
+
+// Rutas correctas para los includes
+require_once __DIR__.'/../includes/config.php';
+require_once __DIR__.'/../includes/db.php';
 
 // Verificar si la solicitud es POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $_SESSION['error'] = "Método no permitido";
     header("Location: ".BASE_URL."views/registro.php");
     exit;
 }
@@ -18,25 +23,21 @@ $password = $_POST['password'] ?? '';
 $confirm_password = $_POST['confirm_password'] ?? '';
 $fecha_nacimiento = !empty($_POST['fecha_nacimiento']) ? $_POST['fecha_nacimiento'] : null;
 $genero = $_POST['genero'] ?? null;
-$telefono = isset($_POST['telefono']) ? trim($_POST['telefono']) : null;
+$telefono = isset($_POST['telefono']) ? preg_replace('/[^0-9]/', '', $_POST['telefono']) : null;
 
-// Validaciones básicas
+// Validaciones
 $errores = [];
 
-if (empty($primer_nombre)) {
-    $errores[] = "El primer nombre es obligatorio";
-}
-
-if (empty($primer_apellido)) {
-    $errores[] = "El primer apellido es obligatorio";
-}
-
+// Validar campos obligatorios
+if (empty($primer_nombre)) $errores[] = "El primer nombre es obligatorio";
+if (empty($primer_apellido)) $errores[] = "El primer apellido es obligatorio";
 if (empty($email)) {
     $errores[] = "El email es obligatorio";
 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errores[] = "El formato del email no es válido";
 }
 
+// Validar contraseña
 if (empty($password)) {
     $errores[] = "La contraseña es obligatoria";
 } elseif (strlen($password) < 8) {
@@ -45,14 +46,15 @@ if (empty($password)) {
     $errores[] = "Las contraseñas no coinciden";
 }
 
+// Validar fecha de nacimiento
 if ($fecha_nacimiento && strtotime($fecha_nacimiento) > time()) {
     $errores[] = "La fecha de nacimiento no puede ser futura";
 }
 
-// Verificar si hay errores
+// Si hay errores, redirigir al formulario
 if (!empty($errores)) {
-    $_SESSION['errores'] = $errores;
-    $_SESSION['old_data'] = $_POST;
+    $_SESSION['error'] = implode("<br>", $errores);
+    $_SESSION['form_data'] = $_POST;
     header("Location: ".BASE_URL."views/registro.php");
     exit;
 }
@@ -63,14 +65,14 @@ try {
     $stmt->execute([$email]);
     
     if ($stmt->rowCount() > 0) {
-        $_SESSION['errores'] = ["Este email ya está registrado"];
-        $_SESSION['old_data'] = $_POST;
+        $_SESSION['error'] = "Este email ya está registrado";
+        $_SESSION['form_data'] = $_POST;
         header("Location: ".BASE_URL."views/registro.php");
         exit;
     }
 } catch (PDOException $e) {
     error_log("Error al verificar email: ".$e->getMessage());
-    $_SESSION['errores'] = ["Error en el sistema. Por favor intente más tarde."];
+    $_SESSION['error'] = "Error en el sistema. Por favor intente más tarde.";
     header("Location: ".BASE_URL."views/registro.php");
     exit;
 }
@@ -114,14 +116,15 @@ try {
         'activo' => $user['activo']
     ];
     
-    // Redirigir al dashboard
+    // Redirigir al dashboard con mensaje de éxito
+    $_SESSION['success'] = "Registro exitoso. ¡Bienvenido/a!";
     header("Location: ".BASE_URL."inicio.php");
     exit;
     
 } catch (PDOException $e) {
     error_log("Error al registrar usuario: ".$e->getMessage());
-    $_SESSION['errores'] = ["Error al registrar el usuario. Por favor intente nuevamente."];
-    $_SESSION['old_data'] = $_POST;
+    $_SESSION['error'] = "Error al registrar el usuario. Por favor intente nuevamente.";
+    $_SESSION['form_data'] = $_POST;
     header("Location: ".BASE_URL."views/registro.php");
     exit;
 }
