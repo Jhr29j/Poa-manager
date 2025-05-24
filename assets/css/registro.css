@@ -1,0 +1,159 @@
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4895ef;
+    --danger-color: #f72585;
+    --success-color: #4cc9f0;
+    --warning-color: #f8961e;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --gray-color: #6c757d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+body {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.Animaciones:nth-child(1) { animation-delay: 0.4s; }
+.Animaciones:nth-child(2) { animation-delay: 0.8s; }
+.Animaciones:nth-child(3) { animation-delay: 1.2s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.registration-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.registration-title {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group,
+.form-row {
+    margin-bottom: 1rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 2px solid var(--gray-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.custom-select select {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 5px;
+    border: 2px solid var(--gray-color);
+    background: white;
+}
+
+.register-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--gray-color);
+}
+
+.login-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.date-hint {
+    font-size: 0.8rem;
+    color: var(--gray-color);
+    margin-top: 0.2rem;
+}
+
+.notification {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.notification.error {
+    background-color: #f8d7da;
+    color: #842029;
+}
+.notification.success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+

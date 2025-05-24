@@ -1,0 +1,144 @@
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4895ef;
+    --danger-color: #f72585;
+    --success-color: #4cc9f0;
+    --warning-color: #f8961e;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --gray-color: #6c757d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: var(--dark-color);
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 250px;
+    width: calc(100% - 250px);
+}
+
+.header {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    color: var(--dark-color);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.btn {
+    display: flex;
+    width: 160px;
+    border-radius: 5px;
+    background-color: var(--avatar-bg);
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+    color: white;
+    font-weight: bold;
+}
+
+.btn:hover {
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.6);
+    transform: translateY(-2px);
+}
+
+.usuarios-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.usuario-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.usuario-info h3 {
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.usuario-info p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    color: var(--gray-color);
+}
+
+.usuario-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    width: 250px;
+}
+
+.usuario-actions a {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.usuario-actions .btn-edit {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+    transition: all 0.5s ease;
+}
+
+.usuario-actions .btn-delete {
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    background-color: transparent;
+    transition: all 0.5s ease;
+}
+
+.usuario-actions .btn-edit:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.usuario-actions .btn-delete:hover {
+    background-color: #d61c65;
+    color: white;
+}
