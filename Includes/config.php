@@ -1,12 +1,10 @@
 <?php
-// Configurar el timezone
-date_default_timezone_set('America/Bogota');
+// config.php - Versión corregida
 
-// Definir constantes de rutas
+// Configuración BASE_URL
 define('BASE_URL', 'https://'.$_SERVER['HTTP_HOST'].'/');
-define('ROOT_PATH', realpath(dirname(__FILE__).'/../');
 
-// Configuración de sesión segura
+// Configuración de sesión segura CORREGIDA
 session_set_cookie_params([
     'lifetime' => 86400,
     'path' => '/',
@@ -16,5 +14,6 @@ session_set_cookie_params([
     'samesite' => 'Strict'
 ]);
 
+// Iniciar sesión
 session_start();
 ?>
