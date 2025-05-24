@@ -2,9 +2,8 @@
 // Iniciar sesión al principio
 session_start();
 
-// Rutas correctas para los includes
-require_once __DIR__.'config.php';
-require_once __DIR__.'db.php';
+require_once __DIR__.'/config.php';
+require_once __DIR__.'/db.php';
 
 // Verificar si la solicitud es POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
