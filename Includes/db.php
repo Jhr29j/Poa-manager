@@ -1,13 +1,24 @@
 <?php
-$host = "tramway.proxy.rlwy.net"; // MYSQHOST
-$port = "17185";                      // MYSQLPORT
-$db = "railway";                   // MYSQLDATABASE
-$user = "root";                    // MYSQLUSER
-$pass = "rFLLNjMncPcBDuxjvqtMwQGwmFKauECp"; // MYSQLPASSWORD
+// db.php - Conexión a base de datos con manejo mejorado de errores
+
+// Configuración desde variables de entorno (recomendado para producción)
+$host = getenv('MYSQLHOST') ?: "tramway.proxy.rlwy.net";
+$port = getenv('MYSQLPORT') ?: "17185";
+$db   = getenv('MYSQLDATABASE') ?: "railway";
+$user = getenv('MYSQLUSER') ?: "root";
+$pass = getenv('MYSQLPASSWORD') ?: "rFLLNjMncPcBDuxjvqtMwQGwmFKauECp";
 
 try {
-    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+    ];
+    
+    $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+    error_log("Error de conexión a la base de datos: " . $e->getMessage());
+    die("Error en el sistema. Por favor, inténtelo más tarde.");
 }
+?>
