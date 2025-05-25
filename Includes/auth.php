@@ -1,4 +1,5 @@
 <?php
+require 'config.php';
 require 'db.php';
 session_start();
 
@@ -9,7 +10,6 @@ if (!$email || !$password) {
     header("Location: ../views/login.php?error=Faltan credenciales");
     exit;
 }
-
 
 $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
 $stmt->execute([$email]);
@@ -26,7 +26,16 @@ if (isset($user['activo']) && !$user['activo']) {
     exit;
 }
 
-// Guardar datos en sesión (actualizado con nuevos campos)
+// ✅ Usar NOW() directamente en SQL para tomar la hora correcta del servidor
+$update_stmt = $pdo->prepare("UPDATE usuarios SET ultimo_acceso = NOW() WHERE id = ?");
+$update_stmt->execute([$user['id']]);
+
+// Cargar nuevamente el valor actualizado para mostrar en sesión si deseas
+$stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
+$stmt->execute([$user['id']]);
+$user = $stmt->fetch();
+
+// Guardar datos en sesión
 $_SESSION['usuario'] = [
     'id' => $user['id'],
     'primer_nombre' => $user['primer_nombre'],
@@ -35,17 +44,14 @@ $_SESSION['usuario'] = [
     'email' => $user['email'],
     'rol' => $user['rol'],
     'telefono' => $user['telefono'] ?? null,
-    'genero' => $user['genero'] ?? null
+    'genero' => $user['genero'] ?? null,
+    'ultimo_acceso' => $user['ultimo_acceso'] ?? null // Opcional
 ];
 
 // Redirigir según rol
 switch ($user['rol']) {
     case 'administrador':
-        header("Location: ../inicio.php");
-        break;
     case 'editor':
-        header("Location: ../inicio.php");
-        break;
     case 'lector':
         header("Location: ../inicio.php");
         break;
@@ -53,4 +59,3 @@ switch ($user['rol']) {
         header("Location: ../views/login.php?error=Rol no válido");
 }
 exit;
-?>

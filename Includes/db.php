@@ -17,6 +17,7 @@ try {
     ];
     
     $pdo = new PDO($dsn, $user, $pass, $options);
+    $pdo->exec("SET time_zone = '-04:00'");
 } catch (PDOException $e) {
     error_log("Error de conexión a la base de datos: " . $e->getMessage());
     die("Error en el sistema. Por favor, inténtelo más tarde.");
