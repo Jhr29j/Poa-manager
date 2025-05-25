@@ -48,7 +48,6 @@ try {
     <title>Dashboard - Gestión de Planes Operativos</title>
     <link rel="stylesheet" href="assets/css/Inicio.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
