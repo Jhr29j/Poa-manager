@@ -1,19 +1,17 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-require 'config.php';
+require 'config.php';  // Maneja la sesión y configuración general
 require 'db.php';
 
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
+// Validar entrada
 if (!$email || !$password) {
     header("Location: ../views/login.php?error=Faltan credenciales");
     exit;
 }
 
+// Buscar usuario
 $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
 $stmt->execute([$email]);
 $user = $stmt->fetch();
@@ -37,12 +35,7 @@ try {
     error_log("Error actualizando último acceso: " . $e->getMessage());
 }
 
-// Obtener usuario actualizado
-$stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
-$stmt->execute([$user['id']]);
-$user = $stmt->fetch();
-
-// Guardar en sesión
+// Guardar usuario en sesión
 $_SESSION['usuario'] = [
     'id' => $user['id'],
     'primer_nombre' => $user['primer_nombre'],
@@ -55,7 +48,7 @@ $_SESSION['usuario'] = [
     'ultimo_acceso' => $user['ultimo_acceso'] ?? null
 ];
 
-// Redirigir según rol
+// Redirigir según el rol
 switch ($user['rol']) {
     case 'administrador':
     case 'editor':
