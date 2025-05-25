@@ -120,13 +120,16 @@ body {
     margin-left: 20px;
 }
 
-.no-plans-msg {
+.plans-container .no-plans-msg {
+    width: 1190px;
     text-align: center;
     padding: 4rem;
     color: var(--gray-color);
     background: #fff;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
+    margin: 0 auto;
+    border-radius: 15px;
 }
 
 .no-plans-msg i {
