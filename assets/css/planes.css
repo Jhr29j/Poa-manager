@@ -120,7 +120,7 @@ body {
     margin-left: 20px;
 }
 
-.plans-container .no-plans-message {
+.no-plans-msg {
     text-align: center;
     padding: 4rem;
     color: var(--gray-color);
@@ -129,13 +129,13 @@ body {
     box-shadow: var(--shadow);
 }
 
-.no-plans-message i {
+.no-plans-msg i {
     font-size: 3rem;
     margin-bottom: 1rem;
     color: var(--primary-color);
 }
 
-.no-plans-message p {
+.no-plans-msg p {
     font-size: 1.2rem;
 }
 
