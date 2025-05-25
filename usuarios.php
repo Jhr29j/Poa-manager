@@ -17,11 +17,16 @@ if (isset($_GET['estado']) && isset($mensajes[$_GET['estado']])) {
     $notificacion = $_SESSION['notificacion'];
     unset($_SESSION['notificacion']);
 }
+
+// Obtener ID del usuario actual
+$usuarioActualId = $_SESSION['usuario']['id'] ?? null;
+$esAdmin = ($_SESSION['usuario']['rol'] ?? '') === 'administrador';
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios - POA Manager</title>
@@ -30,6 +35,7 @@ if (isset($_GET['estado']) && isset($mensajes[$_GET['estado']])) {
     <link rel="stylesheet" href="assets/css/planes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+</head>
 <body>
     <div class="app-container">
         <?php include("Includes/sidebar.php"); ?>
@@ -37,7 +43,7 @@ if (isset($_GET['estado']) && isset($mensajes[$_GET['estado']])) {
         <main class="main-content">
             <header class="header">
                 <h1>Gestión de Usuarios</h1>
-                <?php if ($_SESSION['usuario']['rol'] === 'administrador'): ?>
+                <?php if ($esAdmin): ?>
                     <a href="views/add_user.php" class="btn btn-primary">
                         <i class="fas fa-user-plus"></i> Nuevo Usuario
                     </a>
@@ -46,23 +52,33 @@ if (isset($_GET['estado']) && isset($mensajes[$_GET['estado']])) {
 
             <div class="usuarios-container">
                 <?php
-                    $stmt = $pdo->query("SELECT * FROM usuarios");
+                    // Obtener todos los usuarios excepto el actual
+                    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id != ? ORDER BY primer_nombre");
+                    $stmt->execute([$usuarioActualId]);
                     while ($u = $stmt->fetch()):
                 ?>
                     <div class="usuario-card">
                         <div class="usuario-info">
                             <h3><?= htmlspecialchars($u['primer_nombre'] . ' ' . ($u['segundo_nombre'] ?? '') . ' ' . $u['primer_apellido'] . ' ' . ($u['segundo_apellido'] ?? '')) ?></h3>
                             <p><strong>Email:</strong> <?= htmlspecialchars($u['email']) ?></p>
-                            <p><strong>Rol:</strong> <?= ucfirst($u['rol']) ?></p>
+                            <p><strong>Rol:</strong> <?= ucfirst($u['rol']) ?>
+                                <?php if ($u['es_super_admin']): ?>
+                                    <span class="super-admin-badge">(Super Admin)</span>
+                                <?php endif; ?>
+                            </p>
                         </div>
-                        <?php if ($_SESSION['usuario']['rol'] === 'administrador'): ?>
+                        <?php if ($esAdmin): ?>
                         <div class="usuario-actions">
-                            <a href="views/edit_user.php?id=<?= $u['id'] ?>" class="btn-edit">
-                                <i class="fas fa-pen"></i> Editar
-                            </a>
-                            <a href="views/delete_user.php?id=<?= $u['id'] ?>" class="btn-delete" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">
-                                <i class="fas fa-trash"></i> Eliminar
-                            </a>
+                            <?php if (!$u['es_super_admin']): ?>
+                                <a href="views/edit_user.php?id=<?= $u['id'] ?>" class="btn-edit">
+                                    <i class="fas fa-pen"></i> Editar
+                                </a>
+                                <a href="views/delete_user.php?id=<?= $u['id'] ?>" class="btn-delete" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </a>
+                            <?php else: ?>
+                                <span class="protected-badge"></span>
+                            <?php endif; ?>
                         </div>
                         <?php endif; ?>
                     </div>
@@ -81,7 +97,5 @@ if (isset($_GET['estado']) && isset($mensajes[$_GET['estado']])) {
         </div>
         <?php endif; ?>
     </div>
-
-    <script src="assets/js/planes.js"></script>
 </body>
 </html>

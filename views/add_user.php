@@ -7,45 +7,74 @@ if ($_SESSION['usuario']['rol'] !== 'administrador') {
     die("<p>No tienes permisos para acceder a esta página.</p>");
 }
 
-$mensajeError = '';
+// Obtener el usuario a editar
+if (!isset($_GET['id'])) {
+    die("<p>Usuario no encontrado.</p>");
+}
 
+$id = $_GET['id'];
+$usuarioActualId = $_SESSION['usuario']['id'] ?? null;
+
+// Verificar si está intentando editarse a sí mismo
+if ($id == $usuarioActualId) {
+    $_SESSION['notificacion'] = ['texto' => 'No puedes editarte a ti mismo.', 'tipo' => 'error'];
+    header("Location: ../usuarios.php");
+    exit;
+}
+
+// Obtener información del usuario a editar
+$stmt = $pdo->prepare("SELECT id, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, rol, es_super_admin FROM usuarios WHERE id = ?");
+$stmt->execute([$id]);
+$usuario_a_editar = $stmt->fetch();
+
+if (!$usuario_a_editar) {
+    die("<p>Usuario no encontrado.</p>");
+}
+
+// Verificar si es un super admin protegido
+if ($usuario_a_editar['es_super_admin']) {
+    $_SESSION['notificacion'] = ['texto' => 'No puedes editar a este usuario.', 'tipo' => 'error'];
+    header("Location: ../usuarios.php");
+    exit;
+}
+
+// Procesar actualización
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
     $primer_nombre = $_POST['primer_nombre'];
     $segundo_nombre = $_POST['segundo_nombre'] ?? null;
     $primer_apellido = $_POST['primer_apellido'];
     $segundo_apellido = $_POST['segundo_apellido'] ?? null;
-    $email = $_POST['email'];
-    $password = $_POST['contraseña'];
     $rol = $_POST['rol'];
 
-    // Verificar si el correo ya existe
-    $verificarStmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE email = ?");
-    $verificarStmt->execute([$email]);
-    $existe = $verificarStmt->fetchColumn();
+    try {
+        $pdo->beginTransaction();
 
-    if ($existe) {
-        $mensajeError = "El correo ya está registrado.";
-    } else {
-        try {
-            $stmt = $pdo->prepare("INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, email, contraseña, rol)
-                                    VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $primer_nombre,
-                $segundo_nombre,
-                $primer_apellido,
-                $segundo_apellido,
-                $email,
-                password_hash($password, PASSWORD_DEFAULT),
-                $rol
-            ]);
+        $stmt = $pdo->prepare("UPDATE usuarios SET 
+            primer_nombre = ?, 
+            segundo_nombre = ?, 
+            primer_apellido = ?, 
+            segundo_apellido = ?, 
+            rol = ? 
+            WHERE id = ?");
 
-            $_SESSION['notificacion'] = ['texto' => 'Usuario creado correctamente!', 'tipo' => 'success'];
-            header("Location: ../usuarios.php");
-            exit;
+        $stmt->execute([
+            $primer_nombre,
+            $segundo_nombre,
+            $primer_apellido,
+            $segundo_apellido,
+            $rol,
+            $id
+        ]);
 
-        } catch (PDOException $e) {
-            $mensajeError = "Error al crear el usuario: " . $e->getMessage();
-        }
+        $pdo->commit();
+        $_SESSION['notificacion'] = ['texto' => 'Usuario actualizado correctamente!', 'tipo' => 'success'];
+        header("Location: ../usuarios.php");
+        exit;
+
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        die("Error al actualizar el usuario: " . $e->getMessage());
     }
 }
 ?>
@@ -54,7 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nuevo Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
     <link rel="stylesheet" href="../assets/css/editar_usuario.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -65,57 +95,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <main class="main-content">
             <header class="header">
-                <h1>Nuevo Usuario</h1>
+                <h1>Editar Usuario</h1>
             </header>
 
             <div class="content">
-                <?php if (!empty($mensajeError)): ?>
-                    <div class="error-message"><?= htmlspecialchars($mensajeError) ?></div>
-                <?php endif; ?>
-
                 <form method="POST">
+                    <input type="hidden" name="id" value="<?= $usuario_a_editar['id'] ?>">
+
                     <div class="form-group">
                         <label>Primer Nombre</label>
-                        <input type="text" name="primer_nombre" required>
+                        <input type="text" name="primer_nombre" value="<?= htmlspecialchars($usuario_a_editar['primer_nombre']) ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label>Segundo Nombre</label>
-                        <input type="text" name="segundo_nombre">
+                        <input type="text" name="segundo_nombre" value="<?= htmlspecialchars($usuario_a_editar['segundo_nombre'] ?? '') ?>">
                     </div>
 
                     <div class="form-group">
                         <label>Primer Apellido</label>
-                        <input type="text" name="primer_apellido" required>
+                        <input type="text" name="primer_apellido" value="<?= htmlspecialchars($usuario_a_editar['primer_apellido']) ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label>Segundo Apellido</label>
-                        <input type="text" name="segundo_apellido">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" name="contraseña" required>
+                        <input type="text" name="segundo_apellido" value="<?= htmlspecialchars($usuario_a_editar['segundo_apellido'] ?? '') ?>">
                     </div>
 
                     <div class="form-group">
                         <label>Rol</label>
                         <select name="rol" required>
-                            <option value="administrador">Seleccionar...</option>
-                            <option value="administrador">Administrador</option>
-                            <option value="editor">Editor</option>
-                            <option value="lector">Lector</option>
+                            <option value="administrador" <?= ($usuario_a_editar['rol'] === 'administrador') ? 'selected' : '' ?>>Administrador</option>
+                            <option value="editor" <?= ($usuario_a_editar['rol'] === 'editor') ? 'selected' : '' ?>>Editor</option>
+                            <option value="lector" <?= ($usuario_a_editar['rol'] === 'lector') ? 'selected' : '' ?>>Lector</option>
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Crear Usuario</button>
-                    <a href="../usuarios.php" class="btn btn-secondary">Cancelar</a>
+                    <div class="form-actions">
+                        <button type="submit" class="btn">Actualizar Usuario</button>
+                        <a href="../usuarios.php" class="btn-cancel">Cancelar</a>
+                    </div>
                 </form>
             </div>
         </main>
