@@ -27,13 +27,14 @@ body {
     min-height: 100vh;
 }
 
-/* Main Content */
 .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     margin-left: 250px;
     width: calc(100% - 250px);
+    height: 100vh;
+    overflow: hidden;
 }
 
 .header {
@@ -43,6 +44,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .header h1 {
@@ -50,35 +54,17 @@ body {
     color: var(--dark-color);
 }
 
-.header-actions {
-    display: flex;
-    align-items: center;
-}
-
-.btn {
-    display: flex;
-    width: 160px;
-    border-radius: 5px;
-    background-color: var(--avatar-bg);
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.5s ease;
-    color: white;
-    font-weight: bold;
-}
-
-.btn:hover {
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.6);
-    transform: translateY(-2px);
+.content-container {
+    padding: 20px;
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+    -webkit-overflow-scrolling: touch;
 }
 
 .usuarios-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
-    padding: 20px;
 }
 
 .usuario-card {
@@ -106,7 +92,6 @@ body {
     margin-top: 15px;
     display: flex;
     gap: 10px;
-    width: 250px;
 }
 
 .usuario-actions a {
@@ -123,22 +108,137 @@ body {
     border: 1px solid var(--primary-color);
     color: var(--primary-color);
     background-color: transparent;
-    transition: all 0.5s ease;
 }
 
 .usuario-actions .btn-delete {
     border: 1px solid var(--danger-color);
     color: var(--danger-color);
     background-color: transparent;
-    transition: all 0.5s ease;
 }
 
 .usuario-actions .btn-edit:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: white;
 }
 
 .usuario-actions .btn-delete:hover {
-    background-color: #d61c65;
+    background-color: var(--danger-color);
     color: white;
+}
+
+.super-admin-badge {
+    background-color: var(--warning-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.protected-badge {
+    background-color: var(--danger-color);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+}
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.notification {
+    padding: 15px 20px;
+    border-radius: 6px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+}
+
+.notification.success {
+    background-color: var(--success-color);
+}
+
+.notification.error {
+    background-color: var(--danger-color);
+}
+
+.notification.success-created {
+    background-color: var(--primary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.btn {
+    display: flex;
+    width: 160px;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.btn:hover {
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 992px) {
+    .main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .content-container {
+        height: calc(100vh - 70px);
+    }
+    
+    .usuarios-container {
+        grid-template-columns: 1fr;
+    }
 }
