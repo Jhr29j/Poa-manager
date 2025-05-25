@@ -1,5 +1,6 @@
 <?php 
 include("Includes/session.php");
+include("Includes/conexion.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -22,33 +23,52 @@ include("Includes/session.php");
             </header>
 
             <div class="content">
-                <!-- Filtros -->
-                <div class="filters">
-                    <div class="filter-group">
-                        <label for="year-filter">Año:</label>
-                        <select id="year-filter">
-                            <option value="all" selected>Todos</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="status-filter">Estado:</label>
-                        <select id="status-filter">
-                            <option value="all">Todos</option>
-                            <option value="draft">Borrador</option>
-                            <option value="in_review">En revisión</option>
-                            <option value="approved">Aprobado</option>
-                        </select>
-                    </div>
+
+                <!-- MÉTRICAS -->
+                <?php
+                    $usuarios_total = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM usuarios"))['total'];
+                    $planes_total = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM planes_operativos"))['total'];
+                    $actividades_total = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM actividades"))['total'];
+                    $presupuesto_total = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(presupuesto) AS total FROM planes_operativos"))['total'];
+                    $usuarios_recientes = mysqli_query($conn, "SELECT nombre, correo, fecha_registro FROM usuarios ORDER BY fecha_registro DESC LIMIT 5");
+                    $top_planes = mysqli_query($conn, "SELECT nombre_plan, presupuesto FROM planes_operativos ORDER BY presupuesto DESC LIMIT 3");
+                ?>
+
+                <div class="dashboard-grid">
+                    <div class="card"><h2><?= $usuarios_total ?></h2><p>Usuarios Totales</p></div>
+                    <div class="card"><h2><?= $planes_total ?></h2><p>Planes Operativos</p></div>
+                    <div class="card"><h2><?= $actividades_total ?></h2><p>Actividades Totales</p></div>
+                    <div class="card"><h2>$<?= number_format($presupuesto_total, 2) ?></h2><p>Presupuesto Total</p></div>
                 </div>
 
-                <div class="plans-container" id="plans-container">
-                </div>
+                <!-- USUARIOS RECIENTES -->
+                <h3 class="section-title">Usuarios Recientes</h3>
+                <table class="dashboard-table">
+                    <thead>
+                        <tr><th>Nombre</th><th>Email</th><th>Fecha y Hora</th></tr>
+                    </thead>
+                    <tbody>
+                        <?php while($u = mysqli_fetch_assoc($usuarios_recientes)): ?>
+                        <tr>
+                            <td><?= $u['nombre'] ?></td>
+                            <td><?= $u['correo'] ?></td>
+                            <td><?= $u['fecha_registro'] ?></td>
+                        </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+
+                <!-- PLANES DESTACADOS -->
+                <h3 class="section-title">Top 3 Planes con Mayor Presupuesto</h3>
+                <ul class="top-planes">
+                    <?php while($p = mysqli_fetch_assoc($top_planes)): ?>
+                    <li><strong><?= $p['nombre_plan'] ?></strong> - $<?= number_format($p['presupuesto'], 2) ?></li>
+                    <?php endwhile; ?>
+                </ul>
+
             </div>
         </main>
-
+    </div>
     <script src="assets/js/app.js"></script>
 </body>
 </html>
