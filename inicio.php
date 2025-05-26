@@ -14,9 +14,44 @@ $primerApellido = $_SESSION['usuario']['primer_apellido'] ?? '';
 // Función para obtener saludo según la hora
 function obtenerSaludo() {
     $hora = date('H');
-    if ($hora < 12) return 'Buenos días';
-    if ($hora < 19) return 'Buenas tardes';
-    return 'Buenas noches';
+    $nombre = $_SESSION['usuario']['primer_nombre'] ?? '';
+    
+    if ($hora < 12) return 'Buenos días' . ($nombre ? ', ' . htmlspecialchars($nombre) : '');
+    if ($hora < 19) return 'Buenas tardes' . ($nombre ? ', ' . htmlspecialchars($nombre) : '');
+    return 'Buenas noches' . ($nombre ? ', ' . htmlspecialchars($nombre) : '');
+}
+
+// Función para mostrar fecha en español
+function fechaEnEspanol() {
+    $dias = [
+        'Sunday' => 'Domingo',
+        'Monday' => 'Lunes',
+        'Tuesday' => 'Martes',
+        'Wednesday' => 'Miércoles',
+        'Thursday' => 'Jueves',
+        'Friday' => 'Viernes',
+        'Saturday' => 'Sábado'
+    ];
+    
+    $meses = [
+        'January' => 'enero',
+        'February' => 'febrero',
+        'March' => 'marzo',
+        'April' => 'abril',
+        'May' => 'mayo',
+        'June' => 'junio',
+        'July' => 'julio',
+        'August' => 'agosto',
+        'September' => 'septiembre',
+        'October' => 'octubre',
+        'November' => 'noviembre',
+        'December' => 'diciembre'
+    ];
+    
+    $diaIngles = date('l');
+    $mesIngles = date('F');
+    
+    return $dias[$diaIngles] . ', ' . date('j') . ' de ' . $meses[$mesIngles] . ' de ' . date('Y');
 }
 
 // Función para formatear fecha en español mejorada
@@ -30,7 +65,6 @@ function formatFecha($fecha, $mostrarHora = true) {
 
 // Obtener estadísticas detalladas
 try {
-    // Estadísticas básicas
     $queries = [
         'total_planes' => "SELECT COUNT(*) as total FROM planes",
         'total_actividades' => "SELECT COUNT(*) as total FROM actividades",
@@ -103,8 +137,8 @@ try {
         <main class="main-content">
             <header class="header">
                 <div class="header-left">
-                    <h1><?= obtenerSaludo() ?>, <?= htmlspecialchars($nombreUsuario) ?></h1>
-                    <p class="welcome-message"><?= date('l, j F Y') ?></p>
+                    <h1><?= obtenerSaludo() ?></h1>
+                    <p class="welcome-message"><?= fechaEnEspanol() ?></p>
                 </div>
                 <div class="header-right">
                     <?php if ($esAdmin): ?>
@@ -415,6 +449,28 @@ try {
                         }
                     },
                     cutout: '60%'
+                }
+            });
+
+            // Menú hamburguesa para móviles
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
+            
+            // Cerrar menú al hacer clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth <= 768) {
+                    const isClickInsideSidebar = sidebar.contains(event.target);
+                    const isClickOnMenuToggle = menuToggle && menuToggle.contains(event.target);
+                    
+                    if (!isClickInsideSidebar && !isClickOnMenuToggle && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                    }
                 }
             });
         });
