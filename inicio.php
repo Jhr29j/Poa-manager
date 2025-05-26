@@ -419,31 +419,5 @@ try {
             });
         });
     </script>
-
-    <script>
-    // Menú hamburguesa para móviles
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.querySelector('.mobile-menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-        
-        if (menuToggle && sidebar) {
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-            });
-        }
-        
-        // Cerrar menú al hacer clic fuera de él
-        document.addEventListener('click', function(event) {
-            if (window.innerWidth <= 768) {
-                const isClickInsideSidebar = sidebar.contains(event.target);
-                const isClickOnMenuToggle = menuToggle.contains(event.target);
-                
-                if (!isClickInsideSidebar && !isClickOnMenuToggle && sidebar.classList.contains('active')) {
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
-    });
-</script>
 </body>
 </html>

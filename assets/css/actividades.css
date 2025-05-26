@@ -360,6 +360,15 @@ body {
     background-color: var(--secondary-color);
 }
 
+.btn-budget {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.btn-budget:hover {
+    background-color: #b8daff;
+}
+
 /* Mensaje cuando no hay actividades */
 .no-items {
     grid-column: 1 / -1;

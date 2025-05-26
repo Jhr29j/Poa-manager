@@ -5,6 +5,12 @@
     --light-color: #f8f9fa;
     --dark-color: #212529;
     --white: #ffffff;
+    
+    /* Colores para modo oscuro */
+    --bg-dark: #1a1a2e;
+    --card-dark: #16213e;
+    --text-dark: #f8f9fa;
+    --border-dark: #2d3748;
 }
 
 * {
@@ -12,6 +18,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -20,12 +27,117 @@ body {
     line-height: 1.6;
 }
 
+body.dark-theme {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+}
+
 body {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.5s ease-out forwards;
 }
 
+/* Theme Toggle */
+.theme-toggle {
+    background: var(--primary-color);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.theme-toggle i {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle .fa-sun {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+
+.dark-theme .theme-toggle .fa-moon {
+    opacity: 0;
+    transform: rotate(-90deg);
+}
+
+.dark-theme .theme-toggle .fa-sun {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+/* Resto de tus estilos existentes... */
+.header-inicio {
+    background-color: var(--white);
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dark-theme .header-inicio {
+    background-color: var(--card-dark);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .header-inicio h1 {
+    color: var(--text-dark);
+}
+
+/* Hero Section */
+.hero {
+    background-color: var(--light-color);
+}
+
+.dark-theme .hero {
+    background-color: var(--bg-dark);
+}
+
+/* Features Section */
+.features {
+    background-color: var(--white);
+}
+
+.dark-theme .features {
+    background-color: var(--bg-dark);
+}
+
+.dark-theme .features h2 {
+    color: var(--text-dark);
+}
+
+/* Cards */
+.card {
+    background-color: var(--light-color);
+}
+
+.dark-theme .card {
+    background-color: var(--card-dark);
+}
+
+.dark-theme .feature-card-1 h3,
+.dark-theme .feature-card-2 h3,
+.dark-theme .feature-card-1 p,
+.dark-theme .feature-card-2 p {
+    color: var(--text-dark);
+}
+
+/* Footer */
+.footer {
+    background-color: #2c3e50;
+}
+
+/* Resto de tus estilos originales... */
 .Animaciones:nth-child(1) { animation-delay: 0.4s; }
 .Animaciones:nth-child(2) { animation-delay: 0.8s; }
 .Animaciones:nth-child(3) { animation-delay: 1.2s; }
@@ -39,15 +151,6 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.header-inicio {
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .header-inicio h1 {
@@ -80,6 +183,7 @@ body {
 .auth-buttons {
     display: flex;
     gap: 15px;
+    align-items: center;
 }
 
 .btn {
@@ -130,10 +234,19 @@ body {
     color: var(--dark-color);
 }
 
+.dark-theme .hero-content .title-1,
+.dark-theme .hero-content .title-2 {
+    color: var(--text-dark);
+}
+
 .hero-content p {
     font-size: 1.1rem;
     margin-bottom: 30px;
     color: #555;
+}
+
+.dark-theme .hero-content p {
+    color: #a0aec0;
 }
 
 .cta-buttons {

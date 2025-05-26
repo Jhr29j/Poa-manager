@@ -20,6 +20,10 @@ session_start();
             <h1>POA Manager</h1>
         </div>
         <div class="auth-buttons">
+            <button id="theme-toggle" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
             <a href="views/login.php" class="btn btn-login">Iniciar Sesión</a>
             <a href="views/registro.php" class="btn btn-register">Registrarse</a>
         </div>
@@ -37,7 +41,6 @@ session_start();
         </div>
         <div class="hero-image">
             <img src="assets/Img/Vista-previa.png" alt="Vista previa del dashboard">
-
         </div>
     </section>
 
@@ -48,20 +51,21 @@ session_start();
             <div class="card">
                 <img src="assets/Img/Vista-previa2.png" alt="Vista previa del dashboard">
                 <div class="feature-card-1">
-                <i class="fas fa-calendar-alt feature-icon"></i>
-                <h3>Gestión de Planes</h3>
-                <p>Crea, edita y da seguimiento a tus planes operativos anuales de manera sencilla.</p>
+                    <i class="fas fa-calendar-alt feature-icon"></i>
+                    <h3>Gestión de Planes</h3>
+                    <p>Crea, edita y da seguimiento a tus planes operativos anuales de manera sencilla.</p>
+                </div>
             </div>
-        </div>
 
-        <div class="feature-grid">
-            <div class="card">
-                <img src="assets/Img/Vista-previa3.png" alt="Vista previa del dashboard">
-                <div class="feature-card-2">
-                <i class="fas fa-users feature-icon"></i>
-                <h3>Colaboración en Equipo</h3>
-                <p>Trabaja con tu equipo asignando responsabilidades y siguiendo el progreso.</p>
-            </div>
+            <div class="feature-grid">
+                <div class="card">
+                    <img src="assets/Img/Vista-previa3.png" alt="Vista previa del dashboard">
+                    <div class="feature-card-2">
+                        <i class="fas fa-users feature-icon"></i>
+                        <h3>Colaboración en Equipo</h3>
+                        <p>Trabaja con tu equipo asignando responsabilidades y siguiendo el progreso.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -83,5 +87,7 @@ session_start();
             <p>&copy; <?= date('Y') ?> POA Manager. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <script src="assets/js/theme.js"></script>
 </body>
 </html>

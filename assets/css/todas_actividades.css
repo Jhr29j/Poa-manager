@@ -90,6 +90,7 @@ body {
     justify-content: center;
     transition: all 0.3s;
     text-decoration: none;
+    margin: 10px;
 }
 
 .header-actions .btn-filter1:hover {
@@ -109,6 +110,7 @@ body {
     justify-content: center;
     transition: all 0.3s;
     text-decoration: none;
+    margin: 10px;
 }
 
 .header-actions .btn-filter2:hover {
@@ -128,6 +130,7 @@ body {
     justify-content: center;
     transition: all 0.3s;
     text-decoration: none;
+    margin: 10px;
 }
 
 .header-actions .btn-filter3:hover {
@@ -147,6 +150,7 @@ body {
     justify-content: center;
     transition: all 0.3s;
     text-decoration: none;
+    margin: 10px;
 }
 
 .header-actions .btn-clear:hover {
@@ -177,6 +181,7 @@ body {
     display: flex;
     gap: 15px;
     align-items: flex-end;
+    padding: 10px;
 }
 
 .filter-group {
