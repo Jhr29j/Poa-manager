@@ -1,13 +1,40 @@
 :root {
-    --primary-color: #4361ee;
-    --secondary-color: #3f37c9;
-    --accent-color: #4895ef;
-    --danger-color: #f72585;
-    --success-color: #4cc9f0;
-    --warning-color: #f8961e;
-    --light-color: #f8f9fa;
-    --dark-color: #212529;
-    --gray-color: #6c757d;
+    /* Colores claros (tema por defecto) */
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --background-color: #f5f5f5;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --text-light: #777777;
+    --border-color: #e0e0e0;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --warning-color: #f39c12;
+}
+
+.dark-theme {
+    /* Colores oscuros */
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --background-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f5f5f5;
+    --text-light: #b0b0b0;
+    --border-color: #333333;
+    --success-color: #27ae60;
+    --error-color: #c0392b;
+    --warning-color: #d35400;
+}
+
+/* Aplicar variables a los elementos */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
 }
 
 * {

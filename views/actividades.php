@@ -90,8 +90,13 @@ $actividades = $stmt->fetchAll();
                                     <a href="editar_actividad.php?id=<?= $actividad['id'] ?>" class="btn btn-edit">
                                         <i class="fas fa-edit"></i> Editar
                                     </a>
+
                                     <a href="eliminar_actividad.php?id=<?= $actividad['id'] ?>" class="btn btn-delete" onclick="return confirm('¿Eliminar esta actividad?')">
                                         <i class="fas fa-trash"></i> Eliminar
+                                    </a>
+
+                                    <a href="presupuesto.php?plan_id=<?= $plan['id'] ?>" class="btn btn-budget">
+                                        <i class="fas fa-calculator"></i> Presupuesto
                                     </a>
                                 </div>
                             </div>

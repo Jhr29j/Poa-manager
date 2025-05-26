@@ -58,7 +58,7 @@ $responsables = $pdo->query("
                     </div>
         
                     <div class="header-buttons">
-                        <a href="views/presupuesto.php" class="btn btn-budget">
+                        <a href="views/presupuesto.php?id=<?= $u['id'] ?>" class="btn btn-budget">
                             <i class="fas fa-chart-pie"></i> Resumen Presupuestal
                         </a>
 
