@@ -17,7 +17,7 @@ $rol = ucfirst($user['rol'] ?? 'lector');
 ?>
 
 <aside class="sidebar">
-    <a class="logo" href="/poa-manager/views/index.php">
+    <a class="logo" href="../index.php">
         <i class="fas fa-chart-line"></i>
         <span>POA Manager</span>
     </a>
