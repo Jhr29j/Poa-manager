@@ -62,6 +62,7 @@ $estados = ['pendiente', 'en_progreso', 'completada'];
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todas las Actividades</title>
     <link rel="stylesheet" href="../assets/css/sidebar.css">
     <link rel="stylesheet" href="../assets/css/todas_actividades.css">
@@ -73,19 +74,22 @@ $estados = ['pendiente', 'en_progreso', 'completada'];
 
         <main class="main-content">
             <header class="header">
-                <h1>Todas las Actividades</h1>
+                    <button class="mobile-header-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Todas las Actividades</h1>
                 <div class="header-actions">
                     <a href="?estado=pendiente" class="btn btn-filter1 <?= $estado === 'pendiente' ? 'active' : '' ?>">
-                        <i class="fas fa-clock"></i> Pendientes
+                        <i class="fas fa-clock"></i> <span class="action-text">Pendientes</span>
                     </a>
                     <a href="?estado=en_progreso" class="btn btn-filter2 <?= $estado === 'en_progreso' ? 'active' : '' ?>">
-                        <i class="fas fa-spinner"></i> En Progreso
+                        <i class="fas fa-spinner"></i> <span class="action-text">En Progreso</span>
                     </a>
                     <a href="?estado=completada" class="btn btn-filter3 <?= $estado === 'completada' ? 'active' : '' ?>">
-                        <i class="fas fa-check"></i> Completadas
+                        <i class="fas fa-check"></i> <span class="action-text">Completadas</span>
                     </a>
                     <a href="?" class="btn btn-clear">
-                        <i class="fas fa-times"></i> Limpiar Filtros
+                        <i class="fas fa-times"></i> <span class="action-text">Limpiar Filtros</span>
                     </a>
                 </div>
             </header>
@@ -131,7 +135,7 @@ $estados = ['pendiente', 'en_progreso', 'completada'];
 
                         <div class="filter-group">
                             <button type="submit" class="btn btn-apply">
-                                <i class="fas fa-filter"></i> Aplicar Filtros
+                                <i class="fas fa-filter"></i> <span class="action-text">Aplicar Filtros</span>
                             </button>
                         </div>
                     </div>
@@ -170,7 +174,7 @@ $estados = ['pendiente', 'en_progreso', 'completada'];
                             </div>
                             <div class="actividad-actions">
                                 <a href="actividades.php?plan_id=<?= $actividad['plan_id'] ?>" class="btn btn-view">
-                                    <i class="fas fa-eye"></i> Ver en Plan
+                                    <i class="fas fa-eye"></i> <span class="action-text">Ver en Plan</span>
                                 </a>
                             </div>
                         </div>
@@ -179,5 +183,39 @@ $estados = ['pendiente', 'en_progreso', 'completada'];
             </div>
         </main>
     </div>
+
+    <script>
+        // Script para controlar el sidebar en móviles
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileHeaderToggle = document.querySelector('.mobile-header-toggle');
+            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+            
+            // Toggle sidebar desde el botón del sidebar
+            if(mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Toggle sidebar desde el botón del header
+            if(mobileHeaderToggle) {
+                mobileHeaderToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Cerrar sidebar al hacer clic en el overlay
+            if(sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+        });
+    </script>
 </body>
 </html>

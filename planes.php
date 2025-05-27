@@ -39,6 +39,7 @@ $responsables = $pdo->query("
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planes Operativos</title>
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/planes.css">
@@ -50,6 +51,9 @@ $responsables = $pdo->query("
 
         <main class="main-content">
             <header class="header">
+                <button class="mobile-header-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 <h1>Planes Operativos Anuales</h1>
                 <div class="header-actions">
                     <div class="search-box">
@@ -177,6 +181,40 @@ $responsables = $pdo->query("
     </div>
 </div>
 
+
+<script>
+        // Script para controlar el sidebar en móviles
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileHeaderToggle = document.querySelector('.mobile-header-toggle');
+            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+            
+            // Toggle sidebar desde el botón del sidebar
+            if(mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Toggle sidebar desde el botón del header
+            if(mobileHeaderToggle) {
+                mobileHeaderToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Cerrar sidebar al hacer clic en el overlay
+            if(sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+        });
+    </script>
 <script src="assets/js/planes.js"></script>
 </body>
 </html>

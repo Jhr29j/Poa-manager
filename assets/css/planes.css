@@ -633,3 +633,154 @@ a {
     padding: 6px 12px;
     margin-left: 5px;
 }
+
+/* Estilos existentes... */
+
+/* Media Queries para Responsive */
+@media (max-width: 1200px) {
+    .plans-container .no-plans-msg {
+        width: 90%;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .header-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-box {
+        width: 100%;
+        margin-right: 0;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+    
+    .header-buttons {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    
+    .plans-container {
+        margin-left: 0;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .plan-card {
+        width: 100%;
+    }
+    
+    .plan-actions {
+        flex-direction: column;
+    }
+    
+    .plan-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .modal-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .notification-container {
+        max-width: 90%;
+        left: 5%;
+        right: 5%;
+        bottom: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header h1 {
+        font-size: 1.3rem;
+    }
+    
+    #nuevo-plan-btn {
+        width: 100%;
+    }
+    
+    .plan-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .badge {
+        align-self: flex-start;
+    }
+    
+    #view-plan-modal .modal-content {
+        padding: 20px 15px;
+        width: 95%;
+    }
+    
+    .modal-section h3 {
+        font-size: 1rem;
+    }
+    
+    .modal-meta p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Mejoras para móviles */
+@media (hover: none) {
+    .btn:hover {
+        opacity: 1; /* Elimina efectos hover en dispositivos táctiles */
+    }
+    
+    #nuevo-plan-btn:hover {
+        box-shadow: none;
+    }
+}
+
+/* Ajustes para pantallas muy pequeñas */
+@media (max-width: 400px) {
+    .header-buttons a {
+        font-size: 0.8rem;
+    }
+    
+    .new-plan-btn {
+        display: none;
+    }
+    
+    #nuevo-plan-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    
+    #nuevo-plan-btn i {
+        margin-right: 0;
+    }
+    
+    .plan-card {
+        padding: 15px;
+    }
+    
+    .plan-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .plan-body p {
+        font-size: 0.85rem;
+    }
+}

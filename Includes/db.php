@@ -1,7 +1,5 @@
 <?php
-// db.php - Conexión a base de datos con manejo mejorado de errores
 
-// Configuración desde variables de entorno (recomendado para producción)
 $host = getenv('MYSQLHOST') ?: "tramway.proxy.rlwy.net";
 $port = getenv('MYSQLPORT') ?: "17185";
 $db   = getenv('MYSQLDATABASE') ?: "railway";

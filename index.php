@@ -46,25 +46,38 @@ session_start();
 
     <!-- Features Section -->
     <section id="features" class="features">
-        <h2>Características Principales</h2>
-        <div class="features-grid">
-            <div class="card">
-                <img src="assets/Img/Vista-previa2.png" alt="Vista previa del dashboard">
-                <div class="feature-card-1">
+        <h2 class="section-title">Características Principales</h2>
+        <div class="features-container">
+            <div class="feature-block">
+                <div class="feature-image">
+                    <img src="assets/Img/Vista-previa2.png" alt="Gestión de Planes">
+                </div>
+                <div class="feature-content">
                     <i class="fas fa-calendar-alt feature-icon"></i>
                     <h3>Gestión de Planes</h3>
                     <p>Crea, edita y da seguimiento a tus planes operativos anuales de manera sencilla.</p>
                 </div>
             </div>
 
-            <div class="feature-grid">
-                <div class="card">
-                    <img src="assets/Img/Vista-previa3.png" alt="Vista previa del dashboard">
-                    <div class="feature-card-2">
-                        <i class="fas fa-users feature-icon"></i>
-                        <h3>Colaboración en Equipo</h3>
-                        <p>Trabaja con tu equipo asignando responsabilidades y siguiendo el progreso.</p>
-                    </div>
+            <div class="feature-block">
+                <div class="feature-image">
+                    <img src="assets/Img/Vista-previa3.png" alt="Colaboración en Equipo">
+                </div>
+                <div class="feature-content">
+                    <i class="fas fa-users feature-icon"></i>
+                    <h3>Colaboración en Equipo</h3>
+                    <p>Trabaja con tu equipo asignando responsabilidades y siguiendo el progreso.</p>
+                </div>
+            </div>
+
+            <div class="feature-block">
+                <div class="feature-image">
+                    <img src="assets/Img/Vista-previa.png" alt="Reportes y Análisis">
+                </div>
+                <div class="feature-content">
+                    <i class="fas fa-chart-pie feature-icon"></i>
+                    <h3>Reportes y Análisis</h3>
+                    <p>Genera reportes detallados y análisis del progreso de tus planes.</p>
                 </div>
             </div>
         </div>
