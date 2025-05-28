@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 <?php 
-// inicio.php - Página principal del dashboard mejorada
-
 require_once 'Includes/config.php';
 require_once 'Includes/db.php';
 require_once 'Includes/session.php';

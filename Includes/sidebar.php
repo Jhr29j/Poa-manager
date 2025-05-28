@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 if (!isset($_SESSION['usuario'])) {
     header("Location: /poa-manager/views/login.php");

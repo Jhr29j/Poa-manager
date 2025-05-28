@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-<?php
-// index.php - Página de inicio pública
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
