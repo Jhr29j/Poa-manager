@@ -1,8 +1,5 @@
 <?php
-// session.php - Manejo de sesiones
-
 require_once 'config.php';
-session_start();
 
 if (!isset($_SESSION['usuario'])) {
     header('Location: ../login.php');
