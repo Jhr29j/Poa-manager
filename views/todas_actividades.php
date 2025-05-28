@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 require '../Includes/session.php';
 require '../Includes/db.php';
