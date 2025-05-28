@@ -1,6 +1,6 @@
 <?php
-require 'config.php';  // Maneja la sesión y configuración general
-require 'db.php';
+require __DIR__ . '/config.php';
+require __DIR__ . '/db.php';
 
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
