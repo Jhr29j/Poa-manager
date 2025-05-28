@@ -22,7 +22,7 @@ $rol = ucfirst($user['rol'] ?? 'lector');
     </div>
     
     <div class="sidebar-content">
-        <a class="logo" href=".../inicio.php">
+        <a class="logo" href="../inicio.php">
             <i class="fas fa-chart-line"></i>
             <span>POA Manager</span>
         </a>
@@ -60,11 +60,4 @@ $rol = ucfirst($user['rol'] ?? 'lector');
         </div>
     </div>
 </aside>
-
-/i>
-            </a>
-        </div>
-    </div>
-</aside>
-
 <div class="sidebar-overlay"></div>s
