@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 :root {
     --sidebar-width: 250px;
     --sidebar-bg-color: #ffffff;
@@ -274,4 +275,282 @@
     .header {
         padding-left: 15px;
     }
+=======
+:root {
+    --sidebar-width: 250px;
+    --sidebar-bg-color: #ffffff;
+    --sidebar-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    --sidebar-border-color: rgba(0, 0, 0, 0.05);
+    --sidebar-text-color: #6c757d;
+    --sidebar-active-color: #4361ee;
+    --sidebar-hover-bg: rgba(67, 97, 238, 0.1);
+    --avatar-bg: #4361ee;
+    --avatar-color: #ffffff;
+    --username-color: #212529;
+    --logout-hover: #f72585;
+    --transition-speed: 0.3s;
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+}
+
+/* Estructura principal */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg-color);
+    box-shadow: var(--sidebar-shadow);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transition: transform var(--transition-speed) ease;
+    will-change: transform;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Overlay para móviles */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-bg);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-speed) ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Menú hamburguesa para móviles */
+.mobile-menu-toggle {
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    font-size: 1.5rem;
+    color: var(--sidebar-text-color);
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.mobile-header-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--dark-color);
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+/* Logo */
+.sidebar .logo {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--sidebar-active-color);
+    border-bottom: 1px solid var(--sidebar-border-color);
+    text-decoration: none;
+    transition: all var(--transition-speed) ease;
+    min-height: 70px;
+}
+
+.sidebar .logo:hover {
+    background-color: var(--sidebar-hover-bg);
+}
+
+.sidebar .logo i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    min-width: 24px;
+    text-align: center;
+}
+
+.sidebar .logo span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Menú de navegación */
+.sidebar .nav-menu {
+    flex: 1;
+    padding: 15px 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sidebar-active-color) transparent;
+}
+
+.sidebar .nav-menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar .nav-menu::-webkit-scrollbar-thumb {
+    background-color: var(--sidebar-active-color);
+    border-radius: 2px;
+}
+
+.sidebar .nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar .nav-menu li {
+    position: relative;
+}
+
+.sidebar .nav-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--sidebar-text-color);
+    text-decoration: none;
+    transition: all var(--transition-speed) ease;
+    white-space: nowrap;
+}
+
+.sidebar .nav-menu li a:hover {
+    background-color: var(--sidebar-hover-bg);
+    color: var(--sidebar-active-color);
+    padding-left: 22px;
+}
+
+.sidebar .nav-menu li a i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.sidebar .nav-menu li a span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Elemento activo */
+.sidebar .nav-menu li.active a {
+    color: var(--sidebar-active-color);
+    background-color: var(--sidebar-hover-bg);
+    border-left: 3px solid var(--sidebar-active-color);
+    font-weight: 500;
+}
+
+/* Perfil de usuario */
+.user-profile {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-top: 1px solid var(--sidebar-border-color);
+    background-color: rgba(67, 97, 238, 0.03);
+    margin-top: auto;
+    transition: all var(--transition-speed) ease;
+    min-height: 70px;
+}
+
+.user-profile:hover {
+    background-color: var(--sidebar-hover-bg);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: var(--avatar-bg);
+    color: var(--avatar-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 12px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    transition: all var(--transition-speed) ease;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.username {
+    font-weight: 600;
+    color: var(--username-color);
+    font-size: 0.95rem;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.role {
+    font-size: 0.8rem;
+    color: var(--sidebar-text-color);
+    text-transform: capitalize;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--sidebar-text-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all var(--transition-speed) ease;
+    padding: 5px;
+    margin-left: 5px;
+    flex-shrink: 0;
+}
+
+.logout-btn:hover {
+    color: var(--logout-hover);
+    transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle,
+    .mobile-header-toggle {
+        display: block;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .header {
+        padding-left: 15px;
+    }
+>>>>>>> 1bc4df184ba8a2a882bc880481269965a3efa759
 }
