@@ -11,8 +11,3 @@ session_set_cookie_params([
     'httponly' => true,
     'samesite' => 'Strict'
 ]);
-
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
