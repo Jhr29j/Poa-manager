@@ -1,5 +1,4 @@
 <?php
-
 define('BASE_URL', 'https://'.$_SERVER['HTTP_HOST'].'/');
 date_default_timezone_set('America/Santo_Domingo');
 
