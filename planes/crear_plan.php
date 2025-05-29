@@ -55,7 +55,7 @@ $responsables = $pdo->query("
     <meta charset="UTF-8">
     <title>Crear Nuevo Plan</title>
     <link rel="stylesheet" href="../assets/css/sidebar.css">
-    <link rel="stylesheet" href="../assets/css/editar_plan.css">
+    <link rel="stylesheet" href="../assets/css/crear_plan.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>

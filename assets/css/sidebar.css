@@ -251,12 +251,17 @@
 /* Responsive */
 @media (max-width: 992px) {
     .main-content {
-        margin-left: 0;
+        margin-left: 252px;
         width: 100%;
     }
 }
 
 @media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
     .mobile-menu-toggle,
     .mobile-header-toggle {
         display: block;

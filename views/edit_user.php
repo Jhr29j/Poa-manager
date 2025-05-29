@@ -107,61 +107,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <main class="main-content">
             <header class="header">
-                <h1>Editar Usuario</h1>
+                <button class="mobile-header-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-content">
+                    <h1>Editar Usuario</h1>
+                </div>
             </header>
 
             <div class="content">
-                <form method="POST">
+                <form method="POST" class="edit-user-form">
                     <input type="hidden" name="id" value="<?= $usuario_a_editar['id'] ?>">
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Primer Nombre *</label>
+                            <label><i class="fas fa-user"></i> Primer Nombre *</label>
                             <input type="text" name="primer_nombre" value="<?= htmlspecialchars($usuario_a_editar['primer_nombre']) ?>" required>
                         </div>
 
                         <div class="form-group">
-                            <label>Segundo Nombre</label>
+                            <label><i class="fas fa-user"></i> Segundo Nombre</label>
                             <input type="text" name="segundo_nombre" value="<?= htmlspecialchars($usuario_a_editar['segundo_nombre'] ?? '') ?>">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Primer Apellido *</label>
+                            <label><i class="fas fa-user-tag"></i> Primer Apellido *</label>
                             <input type="text" name="primer_apellido" value="<?= htmlspecialchars($usuario_a_editar['primer_apellido']) ?>" required>
                         </div>
 
                         <div class="form-group">
-                            <label>Segundo Apellido</label>
+                            <label><i class="fas fa-user-tag"></i> Segundo Apellido</label>
                             <input type="text" name="segundo_apellido" value="<?= htmlspecialchars($usuario_a_editar['segundo_apellido'] ?? '') ?>">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Fecha de Nacimiento</label>
+                            <label><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento</label>
                             <input type="date" name="fecha_nacimiento" value="<?= htmlspecialchars($usuario_a_editar['fecha_nacimiento'] ?? '') ?>">
                         </div>
 
                         <div class="form-group">
-                            <label>Teléfono</label>
+                            <label><i class="fas fa-phone"></i> Teléfono</label>
                             <input type="tel" name="telefono" value="<?= htmlspecialchars($usuario_a_editar['telefono'] ?? '') ?>">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="genero">Género</label>
-                            <select name="genero" id="genero">
-                                <option value="">Seleccionar...</option>
-                                <option value="masculino" <?= ($usuario_a_editar['genero'] === 'masculino') ? 'selected' : '' ?>>Masculino</option>
-                                <option value="femenino" <?= ($usuario_a_editar['genero'] === 'femenino') ? 'selected' : '' ?>>Femenino</option>
-                                <option value="otro" <?= ($usuario_a_editar['genero'] === 'otro') ? 'selected' : '' ?>>Otro</option>
-                            </select>
+                        <label for="genero"><i class="fas fa-venus-mars"></i> Género</label>
+                        <select name="genero" id="genero">
+                            <option value="">Seleccionar...</option>
+                            <option value="masculino" <?= ($usuario_a_editar['genero'] === 'masculino') ? 'selected' : '' ?>>Masculino</option>
+                            <option value="femenino" <?= ($usuario_a_editar['genero'] === 'femenino') ? 'selected' : '' ?>>Femenino</option>
+                            <option value="otro" <?= ($usuario_a_editar['genero'] === 'otro') ? 'selected' : '' ?>>Otro</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Rol *</label>
+                        <label><i class="fas fa-user-shield"></i> Rol *</label>
                         <select name="rol" required>
                             <option value="administrador" <?= ($usuario_a_editar['rol'] === 'administrador') ? 'selected' : '' ?>>Administrador</option>
                             <option value="editor" <?= ($usuario_a_editar['rol'] === 'editor') ? 'selected' : '' ?>>Editor</option>
@@ -171,19 +176,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="form-group checkbox-group">
                         <label for="es_super_admin" class="checkbox-label checkbox-right">
-                            Super Admin
+                            <i class="fas fa-crown"></i> Super Admin
                             <input type="checkbox" id="es_super_admin" name="es_super_admin" value="1" <?= $usuario_a_editar['es_super_admin'] ? 'checked' : '' ?>>
                             <span class="custom-checkbox"></span>
                         </label>
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="btn">Actualizar Usuario</button>
-                        <a href="../usuarios.php" class="btn-cancel">Cancelar</a>
+                        <button type="submit" class="btn btn-save">
+                            <i class="fas fa-save"></i> <span>Actualizar Usuario</span>
+                        </button>
+                        <a href="../usuarios.php" class="btn btn-cancel">
+                            <i class="fas fa-times"></i> <span>Cancelar</span>
+                        </a>
                     </div>
                 </form>
             </div>
         </main>
     </div>
+
+    <script>
+        // Script para controlar el sidebar en móviles
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileHeaderToggle = document.querySelector('.mobile-header-toggle');
+            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+            
+            // Toggle sidebar desde el botón del sidebar
+            if(mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Toggle sidebar desde el botón del header
+            if(mobileHeaderToggle) {
+                mobileHeaderToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Cerrar sidebar al hacer clic en el overlay
+            if(sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+        });
+    </script>
+    <script src="../assets/js/responsive.js"></script>
 </body>
 </html>

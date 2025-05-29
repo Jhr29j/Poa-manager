@@ -62,10 +62,6 @@ $responsables = $pdo->query("
                     </div>
         
                     <div class="header-buttons">
-                        <a href="views/presupuesto.php?id=<?= $u['id'] ?>" class="btn btn-budget">
-                            <i class="fas fa-chart-pie"></i> Resumen Presupuestal
-                        </a>
-
                         <?php if ($_SESSION['usuario']['rol'] === 'administrador' || $_SESSION['usuario']['rol'] === 'editor'): ?>
                             <a href="planes/crear_plan.php" id="nuevo-plan-btn">
                                 <i class="fa-solid fa-plus"></i>

@@ -54,10 +54,11 @@ $rol = ucfirst($user['rol'] ?? 'lector');
                 <span class="username"><?= htmlspecialchars($user['primer_nombre'] . ' ' . ($user['primer_apellido'] ?? '')) ?></span>
                 <span class="role"><?= $rol ?></span>
             </div>
-            <a href="../index.php" class="logout-btn">
+            <a href="/poa-manager/index.php" class="logout-btn">
                 <i class="fas fa-sign-out-alt"></i>
             </a>
         </div>
     </div>
 </aside>
-<div class="sidebar-overlay"></div>s
+
+<div class="sidebar-overlay"></div>

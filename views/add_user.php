@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuevo Usuario</title>
     <link rel="stylesheet" href="../assets/css/agregar_usuario.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
@@ -73,6 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <main class="main-content">
             <header class="header">
+                <button class="mobile-header-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <h1>Nuevo Usuario</h1>
             </header>
 
@@ -82,93 +86,119 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
 
                 <form method="POST">
-                    <div class="form-group">
-                        <label>Primer Nombre</label>
-                        <input type="text" name="primer_nombre" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required-field"><i class="fas fa-user"></i> Primer Nombre *</label>
+                            <input type="text" name="primer_nombre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Segundo Nombre</label>
+                            <input type="text" name="segundo_nombre">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="required-field"><i class="fas fa-user-tag"></i> Primer Apellido *</label>
+                            <input type="text" name="primer_apellido" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-user-tag"></i> Segundo Apellido</label>
+                            <input type="text" name="segundo_apellido">
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Segundo Nombre</label>
-                        <input type="text" name="segundo_nombre">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Primer Apellido</label>
-                        <input type="text" name="primer_apellido" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Segundo Apellido</label>
-                        <input type="text" name="segundo_apellido">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Email</label>
+                        <label class="required-field"><i class="fas fa-mail-bulk"></i> Email *</label>
                         <input type="email" name="email" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" name="contraseña" required>
+                        <label class="required-field"><i class="fas fa-lock"></i> Contraseña *</label>
+                        <input type="password" name="contraseña" required minlength="6">
                     </div>
 
-                    <div class="form-group">
-                    <label class="form-label">
-                        <span class="checkbox-container"></span>
-                        Fecha de Nacimiento
-                    </label>
-                    <input type="date" class="form-input" name="fecha_nacimiento">
-                </div>
-    
-                <!-- Género -->
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="checkbox-container"></span>
-                        Género
-                    </label>
-                    <div class="custom-select">
-                        <select class="form-input" name="genero">
-                            <option>Seleccionar...</option>
-                            <option>Masculino</option>
-                            <option>Femenino</option>
-                            <option>Otro</option>
-                        </select>
-                    </div>
-                </div>
-    
-                <div class="form-group">
-                    <label class="form-label">
-                        <span class="checkbox-container checked"></span>
-                        Teléfono
-                    </label>
-                    <input type="tel" class="form-input" placeholder="Ingrese su teléfono" name="telefono">
-                </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-alt"></i> Fecha de Nacimiento *</label>
+                            <input type="date" name="fecha_nacimiento">
+                        </div>
 
-                <div class="form-group">
-                        <label>Rol</label>
-                        <select name="rol" required>
-                            <option value="administrador">Seleccionar...</option>
-                            <option value="administrador">Administrador</option>
-                            <option value="editor">Editor</option>
-                            <option value="lector">Lector</option>
-                        </select>
+                        <div class="form-group">
+                            <label><i class="fas fa-venus-mars"></i> Género</label>
+                            <select name="genero">
+                                <option value="">Seleccionar...</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group checkbox-group">
-                        <label for="es_super_admin" class="checkbox-label checkbox-right">
-                            Super Admin
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> Teléfono</label>
+                            <input type="tel" name="telefono" placeholder="Ej: 8091234567">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required-field"> <i class="fas fa-user-shield"></i> Rol *</label>
+                            <select name="rol" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="editor">Editor</option>
+                                <option value="lector">Lector</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <label for="es_super_admin" class="checkbox-label checkbox-right"><i class="fas fa-crown"></i> Super Admin
                             <input type="checkbox" id="es_super_admin" name="es_super_admin" value="1">
                             <span class="custom-checkbox"></span>
                         </label>
                     </div>
 
                     <div class="form-actions">
-                    <button type="submit" class="btn">Crear Usuario</button>
-                    <a href="../usuarios.php" class="btn-cancel">Cancelar</a>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-save"></i> <span class="action-text">Crear Usuario</span>
+                        </button>
+                        <a href="../usuarios.php" class="btn btn-cancel">
+                            <i class="fas fa-times"></i> <span class="action-text">Cancelar</span>
+                        </a>
                     </div>
                 </form>
             </div>
         </main>
     </div>
+
+    <!-- Script para manejar el menú hamburguesa -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mobileHeaderToggle = document.querySelector('.mobile-header-toggle');
+            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+            
+            // Toggle sidebar desde el botón del header
+            if(mobileHeaderToggle) {
+                mobileHeaderToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    if(sidebarOverlay) {
+                        sidebarOverlay.classList.toggle('active');
+                    }
+                });
+            }
+            
+            // Cerrar sidebar al hacer clic en el overlay
+            if(sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+        });
+    </script>
 </body>
 </html>

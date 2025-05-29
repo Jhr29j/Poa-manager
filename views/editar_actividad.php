@@ -81,6 +81,7 @@ $responsables = $pdo->query("
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Actividad</title>
     <link rel="stylesheet" href="../assets/css/sidebar.css">
     <link rel="stylesheet" href="../assets/css/editar_actividades.css">
@@ -92,10 +93,15 @@ $responsables = $pdo->query("
 
         <main class="main-content">
             <header class="header">
+                <button class="mobile-header-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <h1>Editar Actividad</h1>
-                <a href="actividades.php?plan_id=<?= $actividad['plan_id'] ?>" class="btn btn-back">
-                    <i class="fas fa-arrow-left"></i> Volver
-                </a>
+                <div class="header-actions">
+                    <a href="actividades.php?plan_id=<?= $actividad['plan_id'] ?>" class="btn btn-back">
+                        <i class="fas fa-arrow-left"></i> <span class="action-text">Volver</span>
+                    </a>
+                </div>
             </header>
 
             <div class="content">
@@ -103,7 +109,7 @@ $responsables = $pdo->query("
                     <input type="hidden" name="plan_id" value="<?= $actividad['plan_id'] ?>">
 
                     <div class="form-group">
-                        <label>Nombre*</label>
+                        <label class="required-field">Nombre</label>
                         <input type="text" name="nombre" value="<?= htmlspecialchars($actividad['nombre']) ?>" required>
                     </div>
 
@@ -114,19 +120,19 @@ $responsables = $pdo->query("
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Fecha Inicio*</label>
+                            <label class="required-field">Fecha Inicio</label>
                             <input type="date" name="fecha_inicio" value="<?= $actividad['fecha_inicio'] ?>" required>
                         </div>
 
                         <div class="form-group">
-                            <label>Fecha Fin*</label>
+                            <label class="required-field">Fecha Fin</label>
                             <input type="date" name="fecha_fin" value="<?= $actividad['fecha_fin'] ?>" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Responsable*</label>
+                            <label class="required-field">Responsable</label>
                             <select name="responsable_id" required>
                                 <?php foreach ($responsables as $r): ?>
                                     <option value="<?= $r['id'] ?>" <?= $r['id'] == $actividad['responsable_id'] ? 'selected' : '' ?>>
@@ -137,14 +143,14 @@ $responsables = $pdo->query("
                         </div>
 
                         <div class="form-group">
-                            <label>Presupuesto*</label>
-                            <input type="number" name="presupuesto" step="0.01" value="<?= $actividad['presupuesto_asignado'] ?>" required>
+                            <label class="required-field">Presupuesto (RD$)</label>
+                            <input type="number" name="presupuesto" step="0.01" min="0" value="<?= $actividad['presupuesto_asignado'] ?>" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Estado*</label>
-                        <select name="estado">
+                        <label class="required-field">Estado</label>
+                        <select name="estado" required>
                             <option value="pendiente" <?= $actividad['estado'] === 'pendiente' ? 'selected' : '' ?>>Pendiente</option>
                             <option value="en_progreso" <?= $actividad['estado'] === 'en_progreso' ? 'selected' : '' ?>>En Progreso</option>
                             <option value="completada" <?= $actividad['estado'] === 'completada' ? 'selected' : '' ?>>Completada</option>
@@ -153,10 +159,10 @@ $responsables = $pdo->query("
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Guardar Cambios
+                            <i class="fas fa-save"></i> <span class="action-text">Guardar Cambios</span>
                         </button>
                         <a href="actividades.php?plan_id=<?= $actividad['plan_id'] ?>" class="btn btn-cancel">
-                            Cancelar
+                            <i class="fas fa-times"></i> <span class="action-text">Cancelar</span>
                         </a>
                     </div>
                 </form>
@@ -164,15 +170,41 @@ $responsables = $pdo->query("
         </main>
     </div>
 
-    <!-- Validación de fechas -->
+    <!-- Script para manejar el menú hamburguesa -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileHeaderToggle = document.querySelector('.mobile-header-toggle');
+            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+            
+            // Toggle sidebar desde el botón del header
+            if(mobileHeaderToggle) {
+                mobileHeaderToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    if(sidebarOverlay) {
+                        sidebarOverlay.classList.toggle('active');
+                    }
+                });
+            }
+            
+            // Cerrar sidebar al hacer clic en el overlay
+            if(sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+            
+            // Validación de fechas
             const fechaInicio = document.querySelector('input[name="fecha_inicio"]');
             const fechaFin = document.querySelector('input[name="fecha_fin"]');
 
-            fechaInicio.addEventListener('change', function() {
-                fechaFin.min = this.value;
-            });
+            if(fechaInicio && fechaFin) {
+                fechaInicio.addEventListener('change', function() {
+                    fechaFin.min = this.value;
+                });
+            }
         });
     </script>
 </body>

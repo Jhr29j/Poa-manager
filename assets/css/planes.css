@@ -634,8 +634,6 @@ a {
     margin-left: 5px;
 }
 
-/* Estilos existentes... */
-
 /* Media Queries para Responsive */
 @media (max-width: 1200px) {
     .plans-container .no-plans-msg {
@@ -645,10 +643,10 @@ a {
 
 @media (max-width: 992px) {
     .main-content {
-        margin-left: 0;
+        margin-left: 252px;
         width: 100%;
     }
-    
+
     .header {
         flex-direction: column;
         align-items: flex-start;
@@ -682,6 +680,11 @@ a {
 }
 
 @media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
     .plan-card {
         width: 100%;
     }

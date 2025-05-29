@@ -1,4 +1,6 @@
 <?php 
+// inicio.php - Página principal del dashboard mejorada
+
 require_once 'Includes/config.php';
 require_once 'Includes/db.php';
 require_once 'Includes/session.php';
@@ -135,6 +137,9 @@ try {
         <main class="main-content">
             <header class="header">
                 <div class="header-left">
+                    <button class="mobile-header-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <h1><?= obtenerSaludo() ?></h1>
                     <p class="welcome-message"><?= fechaEnEspanol() ?></p>
                 </div>
@@ -258,38 +263,110 @@ try {
                     </div>
 
                     <!-- Tabla de usuarios recientes (solo admin) -->
-                    <?php if ($esAdmin && isset($stats['recent_users'])): ?>
-                    <div class="dashboard-section admin-section recent-users-section">
-                        <h2><i class="fas fa-user-clock"></i> Usuarios Recientes</h2>
-                        <div class="recent-users">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>USUARIO</th>
-                                        <th>EMAIL</th>
-                                        <th>REGISTRO</th>
-                                        <th>ÚLTIMO ACCESO</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($stats['recent_users'] as $user): ?>
-                                    <tr>
-                                        <td class="user-cell">
-                                            <div class="avatar-placeholder">
-                                                <?= strtoupper(substr($user['primer_nombre'], 0, 1) . substr($user['primer_apellido'] ?? '', 0, 1)) ?>
-                                            </div>
-                                            <?= htmlspecialchars($user['primer_nombre'] . ' ' . ($user['primer_apellido'] ?? '')) ?>
-                                        </td>
-                                        <td><?= htmlspecialchars($user['email']) ?></td>
-                                        <td><?= formatFecha($user['creado_en'], false) ?></td>
-                                        <td><?= formatFecha($user['ultimo_acceso']) ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                    <!-- Reemplaza la sección de usuarios recientes con esta versión mejorada -->
+<?php if ($esAdmin && isset($stats['recent_users'])): ?>
+<div class="dashboard-section admin-section recent-users-section">
+    <h2><i class="fas fa-user-clock"></i> Usuarios Recientes</h2>
+    <div class="table-responsive">
+        <table class="recent-users">
+            <thead>
+                <tr>
+                    <th>USUARIO</th>
+                    <th>EMAIL</th>
+                    <th>REGISTRO</th>
+                    <th>ÚLTIMO ACCESO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($stats['recent_users'] as $user): ?>
+                <tr>
+                    <td>
+                        <div class="user-cell">
+                            <div class="avatar-placeholder">
+                                <?= strtoupper(substr($user['primer_nombre'], 0, 1) . substr($user['primer_apellido'] ?? '', 0, 1)) ?>
+                            </div>
+                            <span class="user-name">
+                                <?= htmlspecialchars($user['primer_nombre'] . ' ' . ($user['primer_apellido'] ?? '')) ?>
+                            </span>
                         </div>
-                    </div>
-                    <?php endif; ?>
+                    </td>
+                    <td class="email-cell"><?= htmlspecialchars($user['email']) ?></td>
+                    <td class="date-cell"><?= formatFecha($user['creado_en'], false) ?></td>
+                    <td class="date-cell"><?= formatFecha($user['ultimo_acceso']) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- También agrega estos estilos CSS adicionales para la tabla -->
+<style>
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    border: 1px solid #e0e6ed;
+    margin-top: 15px;
+}
+
+.user-name {
+    white-space: nowrap;
+}
+
+.email-cell {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.date-cell {
+    white-space: nowrap;
+    font-size: 0.85rem;
+}
+
+/* Indicador visual de que la tabla tiene scroll horizontal */
+@media (max-width: 768px) {
+    .table-responsive::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 20px;
+        width: 20px;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(248,249,250,0.8) 100%);
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .table-responsive {
+        position: relative;
+    }
+    
+    /* Scroll suave en móviles */
+    .recent-users {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Para pantallas muy pequeñas, mostrar hint de scroll */
+@media (max-width: 576px) {
+    .recent-users-section::before {
+        content: "↔ Desliza horizontalmente para ver toda la tabla";
+        display: block;
+        font-size: 0.75rem;
+        color: var(--gray-color);
+        text-align: center;
+        margin-bottom: 10px;
+        padding: 8px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        border-left: 3px solid var(--primary-color);
+    }
+}
+</style>
 
                     <!-- Planes recientes -->
                     <div class="dashboard-section recent-items-section">
@@ -449,28 +526,40 @@ try {
                     cutout: '60%'
                 }
             });
+        });
+    </script>
 
-            // Menú hamburguesa para móviles
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
+    <script>
+        // Script para controlar el sidebar en móviles
+        document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.querySelector('.sidebar');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileHeaderToggle = document.querySelector('.mobile-header-toggle');
+            const sidebarOverlay = document.querySelector('.sidebar-overlay');
             
-            if (menuToggle && sidebar) {
-                menuToggle.addEventListener('click', function() {
+            // Toggle sidebar desde el botón del sidebar
+            if(mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
                     sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
                 });
             }
             
-            // Cerrar menú al hacer clic fuera de él
-            document.addEventListener('click', function(event) {
-                if (window.innerWidth <= 768) {
-                    const isClickInsideSidebar = sidebar.contains(event.target);
-                    const isClickOnMenuToggle = menuToggle && menuToggle.contains(event.target);
-                    
-                    if (!isClickInsideSidebar && !isClickOnMenuToggle && sidebar.classList.contains('active')) {
-                        sidebar.classList.remove('active');
-                    }
-                }
-            });
+            // Toggle sidebar desde el botón del header
+            if(mobileHeaderToggle) {
+                mobileHeaderToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Cerrar sidebar al hacer clic en el overlay
+            if(sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
         });
     </script>
 </body>

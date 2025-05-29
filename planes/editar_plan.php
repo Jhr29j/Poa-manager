@@ -82,6 +82,7 @@ $responsables = $pdo->query("
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Plan</title>
     <link rel="stylesheet" href="../assets/css/sidebar.css">
     <link rel="stylesheet" href="../assets/css/editar_plan.css">
@@ -92,14 +93,26 @@ $responsables = $pdo->query("
         <?php include("../Includes/sidebar2.php"); ?>
         <main class="main-content">
             <header class="header">
-                <h1>Editar Plan Operativo</h1>
+                <button class="mobile-header-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-content">
+                    <h1>Editar Plan Operativo</h1>
+                </div>
             </header>
         
             <div class="content">
-                <form method="POST">
-                    <div class="form-group">
-                        <label>Título</label>
-                        <input type="text" name="titulo" value="<?= htmlspecialchars($plan['titulo']) ?>" required>
+                <form method="POST" class="edit-plan-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" name="titulo" value="<?= htmlspecialchars($plan['titulo']) ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Año</label>
+                            <input type="number" name="año" value="<?= $plan['año'] ?>" required>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -111,15 +124,21 @@ $responsables = $pdo->query("
                         <label>Objetivo General</label>
                         <textarea name="objetivo_general" required><?= htmlspecialchars($plan['objetivo_general']) ?></textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label>Año</label>
-                        <input type="number" name="año" value="<?= $plan['año'] ?>" required>
-                    </div>
                     
-                    <div class="form-group">
-                        <label>Presupuesto</label>
-                        <input type="number" name="presupuesto" step="0.01" value="<?= $plan['presupuesto'] ?>" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Presupuesto</label>
+                            <input type="number" name="presupuesto" step="0.01" value="<?= $plan['presupuesto'] ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select name="estado">
+                                <option value="borrador" <?= $plan['estado'] === 'borrador' ? 'selected' : '' ?>>Borrador</option>
+                                <option value="en_revision" <?= $plan['estado'] === 'en_revision' ? 'selected' : '' ?>>En Revisión</option>
+                                <option value="aprobado" <?= $plan['estado'] === 'aprobado' ? 'selected' : '' ?>>Aprobado</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -133,22 +152,52 @@ $responsables = $pdo->query("
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Estado</label>
-                        <select name="estado">
-                            <option value="borrador" <?= $plan['estado'] === 'borrador' ? 'selected' : '' ?>>Borrador</option>
-                            <option value="en_revision" <?= $plan['estado'] === 'en_revision' ? 'selected' : '' ?>>En Revisión</option>
-                            <option value="aprobado" <?= $plan['estado'] === 'aprobado' ? 'selected' : '' ?>>Aprobado</option>
-                        </select>
-                    </div>
-
                     <div class="form-actions">
-                        <button type="submit" class="btn">Guardar Cambios</button>
-                        <a href="../planes.php" class="btn-cancel">Cancelar</a>
+                        <button type="submit" class="btn btn-save">
+                            <i class="fas fa-save"></i> <span>Guardar Cambios</span>
+                        </button>
+                        <a href="../planes.php" class="btn btn-cancel">
+                            <i class="fas fa-times"></i> <span>Cancelar</span>
+                        </a>
                     </div>
                 </form>
             </div>
         </main>
     </div>
+
+    <script>
+        // Script para controlar el sidebar en móviles
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileHeaderToggle = document.querySelector('.mobile-header-toggle');
+            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+            
+            // Toggle sidebar desde el botón del sidebar
+            if(mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Toggle sidebar desde el botón del header
+            if(mobileHeaderToggle) {
+                mobileHeaderToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            // Cerrar sidebar al hacer clic en el overlay
+            if(sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+        });
+    </script>
+    <script src="../assets/js/responsive.js"></script>
 </body>
 </html>
